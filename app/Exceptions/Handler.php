@@ -22,8 +22,11 @@ class Handler extends ExceptionHandler
     public function report(Throwable $th)
     {
        if ($this->shouldReport($th)) {
-            // sends an email
-            $this->sendEmail($th);
+            // if not running in console, sends an email
+            // in console not all needed classes are available
+            if( ! app()->runningInConsole() ){
+                $this->sendEmail($th);
+            }
         }
         parent::report($th);
     }
